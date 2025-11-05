@@ -228,8 +228,8 @@ jobs:
         id: js-action
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: 'World'
-          message-prefix: 'Hello'
+          who_to_greet: 'World'
+          message_prefix: 'Hello'
       
       # 使用輸出
       - name: Use output
@@ -250,9 +250,9 @@ jobs:
         id: container-action
         uses: ./.github/actions/container-action
         with:
-          text-to-process: 'Hello World'
+          text_to_process: 'Hello World'
           operation: 'uppercase'
-          output-format: 'text'
+          output_format: 'text'
       
       # 使用輸出
       - name: Use output
@@ -283,15 +283,15 @@ jobs:
         id: generate
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: 'GitHub'
-          message-prefix: 'Hello'
+          who_to_greet: 'GitHub'
+          message_prefix: 'Hello'
       
       # 使用 Container Action 處理資料
       - name: Process data
         id: process
         uses: ./.github/actions/container-action
         with:
-          text-to-process: ${{ steps.generate.outputs.greeting-message }}
+          text_to_process: ${{ steps.generate.outputs.greeting-message }}
           operation: 'uppercase'
       
       # 顯示結果

@@ -44,7 +44,7 @@ name: 'Container Custom Action'
 description: '自訂 Container Action 範例'
 
 inputs:
-  text-to-process:      # 輸入參數
+  text_to_process:      # 輸入參數
     description: '...'
     required: true
 
@@ -94,9 +94,9 @@ jobs:
         id: process
         uses: ./.github/actions/container-action
         with:
-          text-to-process: 'Hello GitHub Actions'
+          text_to_process: 'Hello GitHub Actions'
           operation: 'uppercase'
-          output-format: 'text'
+          output_format: 'text'
       
       - name: Show results
         run: |
@@ -123,9 +123,9 @@ jobs:
         id: process
         uses: ./.github/actions/container-action
         with:
-          text-to-process: ${{ matrix.text }}
+          text_to_process: ${{ matrix.text }}
           operation: ${{ matrix.operation }}
-          output-format: 'json'
+          output_format: 'json'
       
       - name: Display
         run: echo "${{ steps.process.outputs.result }}"
@@ -135,17 +135,17 @@ jobs:
 
 | 參數名稱 | 描述 | 必填 | 預設值 | 選項 |
 |---------|------|------|--------|------|
-| `text-to-process` | 要處理的文字 | ✅ 是 | `Hello World` | 任何文字 |
+| `text_to_process` | 要處理的文字 | ✅ 是 | `Hello World` | 任何文字 |
 | `operation` | 要執行的操作 | ❌ 否 | `uppercase` | `uppercase`, `lowercase`, `reverse` |
-| `output-format` | 輸出格式 | ❌ 否 | `text` | `text`, `json` |
+| `output_format` | 輸出格式 | ❌ 否 | `text` | `text`, `json` |
 
 ### 使用範例
 
 ```yaml
 with:
-  text-to-process: 'Sample Text'
+  text_to_process: 'Sample Text'
   operation: 'reverse'
-  output-format: 'json'
+  output_format: 'json'
 ```
 
 ## 📤 輸出結果
@@ -220,7 +220,7 @@ COPY ./app /app
 ```bash
 #!/bin/bash
 
-# action.yml 中的 text-to-process 變成 INPUT_TEXT-TO-PROCESS
+# action.yml 中的 text_to_process 變成 INPUT_TEXT-TO-PROCESS
 TEXT="${INPUT_TEXT-TO-PROCESS}"
 OPERATION="${INPUT_OPERATION}"
 

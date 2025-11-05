@@ -43,7 +43,7 @@ name: 'JavaScript Custom Action'
 description: '自訂 JavaScript Action 範例'
 
 inputs:
-  who-to-greet:         # 輸入參數名稱
+  who_to_greet:         # 輸入參數名稱
     description: '...'   # 參數說明
     required: true       # 是否必填
     default: 'World'     # 預設值
@@ -78,8 +78,8 @@ jobs:
         id: greet
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: 'GitHub Actions'
-          message-prefix: 'Hi'
+          who_to_greet: 'GitHub Actions'
+          message_prefix: 'Hi'
       
       - name: Get the output
         run: |
@@ -96,22 +96,22 @@ jobs:
 - name: Run JavaScript Action
   uses: username/javascript-action@v1
   with:
-    who-to-greet: 'World'
+    who_to_greet: 'World'
 ```
 
 ## 📥 輸入參數
 
 | 參數名稱 | 描述 | 必填 | 預設值 |
 |---------|------|------|--------|
-| `who-to-greet` | 要問候的人名 | ✅ 是 | `World` |
-| `message-prefix` | 訊息前綴 | ❌ 否 | `Hello` |
+| `who_to_greet` | 要問候的人名 | ✅ 是 | `World` |
+| `message_prefix` | 訊息前綴 | ❌ 否 | `Hello` |
 
 ### 使用範例
 
 ```yaml
 with:
-  who-to-greet: 'GitHub'
-  message-prefix: 'Welcome'
+  who_to_greet: 'GitHub'
+  message_prefix: 'Welcome'
 ```
 
 ## 📤 輸出結果

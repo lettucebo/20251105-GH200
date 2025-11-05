@@ -9,6 +9,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# 設定最小權限
+permissions:
+  contents: read
+
 jobs:
   # Job 1: 測試 JavaScript Action
   test-javascript-action:

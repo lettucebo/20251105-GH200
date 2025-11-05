@@ -1,21 +1,31 @@
 name: DemoBuild
 
-on: [push]
+on: 
+  workflow_dispatch:
+
+env:
+  buildConfig: Debug
 
 jobs:
   build:
-
+    env:
+      buildConfig: Release
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core SDK 6.0
+        env:
+          buildConfig: Hello
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 6.0.x
       - name: Resotre
-        run: dotnet restore src/*.sln
+        env:
+          buildConfig: Hi
+        run: echo $buildConfig
       - name: Build
         run: dotnet build src/*.sln --configuration Release --no-restore
+        
       - name: Test
         run: dotnet test src/*.sln --no-restore --verbosity normal

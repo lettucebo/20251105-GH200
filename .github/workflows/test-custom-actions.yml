@@ -1,0 +1,197 @@
+name: 'Test Custom Actions'
+
+# 這個 workflow 示範如何使用自訂的 JavaScript 和 Container Actions
+
+on:
+  push:
+    branches: [ main, copilot/** ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  # Job 1: 測試 JavaScript Action
+  test-javascript-action:
+    name: '測試 JavaScript Action'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout 程式碼
+        uses: actions/checkout@v4
+      
+      - name: 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 安裝 JavaScript Action 依賴
+        run: |
+          cd .github/actions/javascript-action
+          npm install
+      
+      - name: 執行 JavaScript Action - 基本使用
+        id: js-basic
+        uses: ./.github/actions/javascript-action
+        with:
+          who-to-greet: 'GitHub Actions 使用者'
+          message-prefix: '歡迎'
+      
+      - name: 顯示 JavaScript Action 輸出
+        run: |
+          echo "🎉 問候訊息: ${{ steps.js-basic.outputs.greeting-message }}"
+          echo "⏰ 執行時間: ${{ steps.js-basic.outputs.time }}"
+          echo "🌍 環境變數: $CUSTOM_GREETING"
+      
+      - name: 執行 JavaScript Action - 不同參數
+        id: js-custom
+        uses: ./.github/actions/javascript-action
+        with:
+          who-to-greet: 'Open Source 社群'
+          message-prefix: 'Hi'
+      
+      - name: 使用 JavaScript Action 輸出
+        run: |
+          echo "訊息: ${{ steps.js-custom.outputs.greeting-message }}"
+
+  # Job 2: 測試 Container Action
+  test-container-action:
+    name: '測試 Container Action'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout 程式碼
+        uses: actions/checkout@v4
+      
+      - name: 執行 Container Action - 大寫轉換
+        id: container-upper
+        uses: ./.github/actions/container-action
+        with:
+          text-to-process: 'hello github actions'
+          operation: 'uppercase'
+          output-format: 'text'
+      
+      - name: 顯示 Container Action 輸出
+        run: |
+          echo "📥 原始文字: ${{ steps.container-upper.outputs.original }}"
+          echo "📤 處理結果: ${{ steps.container-upper.outputs.result }}"
+          echo "🔧 使用操作: ${{ steps.container-upper.outputs.operation-used }}"
+          echo "🌍 環境變數: $PROCESSED_TEXT"
+      
+      - name: 執行 Container Action - 小寫轉換
+        id: container-lower
+        uses: ./.github/actions/container-action
+        with:
+          text-to-process: 'HELLO WORLD'
+          operation: 'lowercase'
+          output-format: 'text'
+      
+      - name: 執行 Container Action - 反轉文字
+        id: container-reverse
+        uses: ./.github/actions/container-action
+        with:
+          text-to-process: 'GitHub Actions'
+          operation: 'reverse'
+          output-format: 'json'
+      
+      - name: 顯示反轉結果
+        run: |
+          echo "反轉結果: ${{ steps.container-reverse.outputs.result }}"
+
+  # Job 3: 整合測試
+  integration-test:
+    name: '整合測試 - 組合使用兩種 Actions'
+    runs-on: ubuntu-latest
+    needs: [test-javascript-action, test-container-action]
+    
+    steps:
+      - name: Checkout 程式碼
+        uses: actions/checkout@v4
+      
+      - name: 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 安裝依賴
+        run: |
+          cd .github/actions/javascript-action
+          npm install
+      
+      - name: 步驟 1 - JavaScript Action 產生訊息
+        id: generate
+        uses: ./.github/actions/javascript-action
+        with:
+          who-to-greet: '整合測試'
+          message-prefix: 'Welcome to'
+      
+      - name: 步驟 2 - Container Action 處理訊息
+        id: process
+        uses: ./.github/actions/container-action
+        with:
+          text-to-process: ${{ steps.generate.outputs.greeting-message }}
+          operation: 'uppercase'
+          output-format: 'text'
+      
+      - name: 步驟 3 - 顯示最終結果
+        run: |
+          echo "=== 整合測試結果 ==="
+          echo "原始訊息: ${{ steps.generate.outputs.greeting-message }}"
+          echo "處理後: ${{ steps.process.outputs.result }}"
+          echo "========================"
+
+  # Job 4: Matrix 測試 - 批次處理
+  matrix-test:
+    name: 'Matrix 測試'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        text: ['Hello', 'GitHub', 'Actions']
+        operation: ['uppercase', 'lowercase', 'reverse']
+    
+    steps:
+      - name: Checkout 程式碼
+        uses: actions/checkout@v4
+      
+      - name: 處理文字 - ${{ matrix.text }} with ${{ matrix.operation }}
+        id: matrix-process
+        uses: ./.github/actions/container-action
+        with:
+          text-to-process: ${{ matrix.text }}
+          operation: ${{ matrix.operation }}
+          output-format: 'text'
+      
+      - name: 顯示結果
+        run: |
+          echo "文字: ${{ matrix.text }}"
+          echo "操作: ${{ matrix.operation }}"
+          echo "結果: ${{ steps.matrix-process.outputs.result }}"
+
+  # Job 5: 錯誤處理測試
+  error-handling-test:
+    name: '錯誤處理測試'
+    runs-on: ubuntu-latest
+    continue-on-error: true  # 允許此 job 失敗
+    
+    steps:
+      - name: Checkout 程式碼
+        uses: actions/checkout@v4
+      
+      - name: 測試無效操作 (預期會失敗)
+        id: invalid-op
+        uses: ./.github/actions/container-action
+        continue-on-error: true
+        with:
+          text-to-process: 'test'
+          operation: 'invalid-operation'
+      
+      - name: 檢查錯誤處理
+        if: steps.invalid-op.outcome == 'failure'
+        run: |
+          echo "✅ 錯誤處理正常 - Action 正確地回報了錯誤"
+          exit 0
+      
+      - name: 如果沒有失敗則報告異常
+        if: steps.invalid-op.outcome == 'success'
+        run: |
+          echo "❌ 錯誤處理異常 - Action 應該要失敗但成功了"
+          exit 1

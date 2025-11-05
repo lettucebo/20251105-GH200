@@ -1,0 +1,43 @@
+name: 'Container Custom Action'
+description: '自訂 Container Action 範例 - 示範如何建立和使用 Container Action'
+author: 'Demo Author'
+
+# 定義輸入參數
+inputs:
+  text-to-process:
+    description: '要處理的文字'
+    required: true
+    default: 'Hello World'
+  operation:
+    description: '要執行的操作 (uppercase, lowercase, reverse)'
+    required: false
+    default: 'uppercase'
+  output-format:
+    description: '輸出格式 (text, json)'
+    required: false
+    default: 'text'
+
+# 定義輸出結果
+outputs:
+  result:
+    description: '處理後的結果'
+  original:
+    description: '原始輸入文字'
+  operation-used:
+    description: '使用的操作'
+
+# 指定 Docker container
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  # 或使用已發布的映像：
+  # image: 'docker://alpine:3.18'
+  
+  # 可選：設定環境變數
+  env:
+    MY_ENV_VAR: 'custom-value'
+
+# 品牌標識 (可選)
+branding:
+  icon: 'package'
+  color: 'green'

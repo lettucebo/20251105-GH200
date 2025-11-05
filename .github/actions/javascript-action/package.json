@@ -1,0 +1,20 @@
+{
+  "name": "javascript-action-example",
+  "version": "1.0.0",
+  "description": "自訂 JavaScript Action 範例",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github",
+    "actions",
+    "javascript"
+  ],
+  "author": "Demo Author",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0"
+  }
+}

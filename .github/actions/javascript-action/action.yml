@@ -1,0 +1,31 @@
+name: 'JavaScript Custom Action'
+description: '自訂 JavaScript Action 範例 - 示範如何建立和使用 JavaScript Action'
+author: 'Demo Author'
+
+# 定義輸入參數
+inputs:
+  who-to-greet:
+    description: '要問候的人名'
+    required: true
+    default: 'World'
+  message-prefix:
+    description: '訊息前綴'
+    required: false
+    default: 'Hello'
+
+# 定義輸出結果
+outputs:
+  time:
+    description: '執行時間'
+  greeting-message:
+    description: '完整的問候訊息'
+
+# 指定 JavaScript runtime
+runs:
+  using: 'node20'
+  main: 'index.js'
+
+# 品牌標識 (可選)
+branding:
+  icon: 'message-circle'
+  color: 'blue'

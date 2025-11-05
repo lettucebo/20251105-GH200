@@ -7,8 +7,6 @@ on:
 
 jobs:
   build:
-    env:
-      buildConfig: Release
     runs-on: ubuntu-latest
 
     steps:

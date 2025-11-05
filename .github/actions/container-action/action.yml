@@ -4,7 +4,7 @@ author: 'Demo Author'
 
 # 定義輸入參數
 inputs:
-  text-to-process:
+  text_to_process:
     description: '要處理的文字'
     required: true
     default: 'Hello World'
@@ -12,7 +12,7 @@ inputs:
     description: '要執行的操作 (uppercase, lowercase, reverse)'
     required: false
     default: 'uppercase'
-  output-format:
+  output_format:
     description: '輸出格式 (text, json)'
     required: false
     default: 'text'

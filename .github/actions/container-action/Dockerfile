@@ -1,12 +1,8 @@
-# Container Action 使用 Alpine Linux 作為基礎映像
-FROM alpine:3.18
+# Container Action 使用 Bash 作為基礎映像
+FROM bash:5.2-alpine3.18
 
-# 安裝必要的套件
-RUN apk add --no-cache \
-    bash \
-    jq \
-    python3 \
-    py3-pip
+# 安裝 jq 用於 JSON 處理
+RUN apk add --no-cache jq || true
 
 # 複製執行腳本到容器
 COPY entrypoint.sh /entrypoint.sh

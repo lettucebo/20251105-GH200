@@ -33,8 +33,8 @@ jobs:
         id: js-basic
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: 'GitHub Actions 使用者'
-          message-prefix: '歡迎'
+          who_to_greet: 'GitHub Actions 使用者'
+          message_prefix: '歡迎'
       
       - name: 顯示 JavaScript Action 輸出
         run: |
@@ -46,8 +46,8 @@ jobs:
         id: js-custom
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: 'Open Source 社群'
-          message-prefix: 'Hi'
+          who_to_greet: 'Open Source 社群'
+          message_prefix: 'Hi'
       
       - name: 使用 JavaScript Action 輸出
         run: |
@@ -66,9 +66,9 @@ jobs:
         id: container-upper
         uses: ./.github/actions/container-action
         with:
-          text-to-process: 'hello github actions'
+          text_to_process: 'hello github actions'
           operation: 'uppercase'
-          output-format: 'text'
+          output_format: 'text'
       
       - name: 顯示 Container Action 輸出
         run: |
@@ -81,17 +81,17 @@ jobs:
         id: container-lower
         uses: ./.github/actions/container-action
         with:
-          text-to-process: 'HELLO WORLD'
+          text_to_process: 'HELLO WORLD'
           operation: 'lowercase'
-          output-format: 'text'
+          output_format: 'text'
       
       - name: 執行 Container Action - 反轉文字
         id: container-reverse
         uses: ./.github/actions/container-action
         with:
-          text-to-process: 'GitHub Actions'
+          text_to_process: 'GitHub Actions'
           operation: 'reverse'
-          output-format: 'json'
+          output_format: 'json'
       
       - name: 顯示反轉結果
         run: |
@@ -121,16 +121,16 @@ jobs:
         id: generate
         uses: ./.github/actions/javascript-action
         with:
-          who-to-greet: '整合測試'
-          message-prefix: 'Welcome to'
+          who_to_greet: '整合測試'
+          message_prefix: 'Welcome to'
       
       - name: 步驟 2 - Container Action 處理訊息
         id: process
         uses: ./.github/actions/container-action
         with:
-          text-to-process: ${{ steps.generate.outputs.greeting-message }}
+          text_to_process: ${{ steps.generate.outputs.greeting-message }}
           operation: 'uppercase'
-          output-format: 'text'
+          output_format: 'text'
       
       - name: 步驟 3 - 顯示最終結果
         run: |
@@ -156,9 +156,9 @@ jobs:
         id: matrix-process
         uses: ./.github/actions/container-action
         with:
-          text-to-process: ${{ matrix.text }}
+          text_to_process: ${{ matrix.text }}
           operation: ${{ matrix.operation }}
-          output-format: 'text'
+          output_format: 'text'
       
       - name: 顯示結果
         run: |
@@ -181,7 +181,7 @@ jobs:
         uses: ./.github/actions/container-action
         continue-on-error: true
         with:
-          text-to-process: 'test'
+          text_to_process: 'test'
           operation: 'invalid-operation'
       
       - name: 檢查錯誤處理

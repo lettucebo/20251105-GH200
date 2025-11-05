@@ -4,11 +4,11 @@ author: 'Demo Author'
 
 # 定義輸入參數
 inputs:
-  who-to-greet:
+  who_to_greet:
     description: '要問候的人名'
     required: true
     default: 'World'
-  message-prefix:
+  message_prefix:
     description: '訊息前綴'
     required: false
     default: 'Hello'

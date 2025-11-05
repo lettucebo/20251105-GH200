@@ -43,9 +43,9 @@ log_warning() {
 log_info "讀取輸入參數..."
 
 # GitHub Actions 會將輸入轉換為環境變數: INPUT_<INPUT_NAME>
-TEXT_TO_PROCESS="${INPUT_TEXT-TO-PROCESS}"
+TEXT_TO_PROCESS="${INPUT_TEXT_TO_PROCESS}"
 OPERATION="${INPUT_OPERATION}"
-OUTPUT_FORMAT="${INPUT_OUTPUT-FORMAT}"
+OUTPUT_FORMAT="${INPUT_OUTPUT_FORMAT}"
 
 echo "📥 輸入參數:"
 echo "  - 文字: ${TEXT_TO_PROCESS}"
@@ -99,19 +99,29 @@ echo ""
 echo "📤 處理結果:"
 
 if [ "${OUTPUT_FORMAT}" = "json" ]; then
-    # JSON 格式輸出
-    JSON_OUTPUT=$(jq -n \
-        --arg original "${TEXT_TO_PROCESS}" \
-        --arg result "${RESULT}" \
-        --arg operation "${OPERATION}" \
-        '{
-            original: $original,
-            result: $result,
-            operation: $operation,
-            timestamp: now | strftime("%Y-%m-%d %H:%M:%S")
-        }')
-    
-    echo "${JSON_OUTPUT}" | jq '.'
+    # JSON 格式輸出 (如果有 jq)
+    if command -v jq &> /dev/null; then
+        JSON_OUTPUT=$(jq -n \
+            --arg original "${TEXT_TO_PROCESS}" \
+            --arg result "${RESULT}" \
+            --arg operation "${OPERATION}" \
+            '{
+                original: $original,
+                result: $result,
+                operation: $operation,
+                timestamp: now | strftime("%Y-%m-%d %H:%M:%S")
+            }')
+        
+        echo "${JSON_OUTPUT}" | jq '.'
+    else
+        # 簡單的 JSON 格式 (不使用 jq)
+        echo "{"
+        echo "  \"original\": \"${TEXT_TO_PROCESS}\","
+        echo "  \"result\": \"${RESULT}\","
+        echo "  \"operation\": \"${OPERATION}\","
+        echo "  \"timestamp\": \"$(date '+%Y-%m-%d %H:%M:%S')\""
+        echo "}"
+    fi
     
     # 設定輸出 (JSON 需要轉義)
     echo "result=${RESULT}" >> $GITHUB_OUTPUT
@@ -144,7 +154,6 @@ echo ""
 log_info "容器環境資訊:"
 echo "  - 主機名稱: $(hostname)"
 echo "  - 作業系統: $(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2)"
-echo "  - Python 版本: $(python3 --version 2>&1)"
 echo "  - Bash 版本: ${BASH_VERSION}"
 
 ###############################################################################

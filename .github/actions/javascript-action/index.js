@@ -14,8 +14,8 @@ const github = require('@actions/github');
 async function run() {
   try {
     // 1. 取得輸入參數
-    const nameToGreet = core.getInput('who-to-greet');
-    const messagePrefix = core.getInput('message-prefix');
+    const nameToGreet = core.getInput('who_to_greet');
+    const messagePrefix = core.getInput('message_prefix');
     
     // 2. 執行主要邏輯
     console.log(`🎉 開始執行 JavaScript Action...`);

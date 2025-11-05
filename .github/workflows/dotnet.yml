@@ -1,7 +1,6 @@
 name: DemoBuild
 
-on: 
-  workflow_dispatch:
+on: [push]
 
 env:
   BUILDCONFIG: Debug

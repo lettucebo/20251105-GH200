@@ -3,7 +3,8 @@ name: DemoBuild
 on: 
   workflow_dispatch:
 
-
+env:
+  BUILDCONFIG: Debug
 
 jobs:
   build:
@@ -11,6 +12,11 @@ jobs:
 
     steps:
       
-      - name: Echo
-        run: echo $BUILDCONFIG
-      
+      - name: Echo1
+        run: echo $BuildConfig
+
+      - name: change var
+        run: echo "BuildConfig=Release" >> "$GITHUB_ENV"
+
+      - name: Echo2
+        run: echo $BuildConfig

@@ -59,6 +59,14 @@ docker build -t test-action .
 
 ---
 
+## 📖 .NET 技術文件
+
+本專案包含 .NET 相關的技術文件與最佳實踐指南：
+
+- **[.NET 網站專案類型比較分析](./docs/dotnet-web-project-types-comparison.md)** - 完整分析 Web Forms、MVC、Web API 與 Razor Pages 的技術特性、適用場景與選型建議
+
+---
+
 ## dotnet user-secrets setting
 
 ``` bash
